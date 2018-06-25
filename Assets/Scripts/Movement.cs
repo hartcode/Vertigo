@@ -4,39 +4,48 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
-	Vector3 direction;
-	Quaternion updatedRotation;
+    Direction direction;
 
-	// Update is called once per frame
-	void FixedUpdate () {
-		float vertical = 0;
-		float horizontal = 0;
-		if (Input.GetAxis("Vertical") > 0) {
-			vertical = 1;
-			direction = new Vector3 (horizontal, 0, vertical);
-			Move ();
-		} else if (Input.GetAxis("Vertical") < 0) {
-			vertical = -1;
-			direction = new Vector3 (horizontal, 0, vertical);
-			Move ();
-		}
-		if (Input.GetAxis("Horizontal") < 0) {
-			horizontal = -1;
-			direction = new Vector3 (horizontal, 0, vertical);
-			Move ();
-		} else if (Input.GetAxis("Horizontal") > 0) {
-			horizontal = 1;
-			direction = new Vector3 (horizontal, 0, vertical);
-			Move ();
-		}
+    void Start() {
+        direction = GetComponent<Direction>();
+    }
+    void FixedUpdate()
+    {
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        if (Time.time - lastMovementTime > movementTimeWait)
+		{
+        	if (Input.GetAxis("Vertical") > 0) {
+		     	doMove(1);
+			} else if (Input.GetAxis("Vertical") < 0) {
+            	doMove(-1);
+			}
+        }
+    }
 
+    float lastMovementTime = 0;
 
-	}
-
-	protected void Move ()
-	{
-		Vector3 updatedPosition = transform.position + direction * Time.deltaTime;
-		transform.position = updatedPosition;
-		transform.rotation = updatedRotation;
+	public float movementTimeWait = 0.3f;
+	
+	void doMove(float forward) {
+        
+        float xDelta = 0;
+        float zDelta = 0;
+        switch(direction.direction)
+        {
+            case DirectionEnum.North:
+                zDelta = forward;
+            break;
+                case DirectionEnum.East:
+                xDelta = forward;
+            break;
+                case DirectionEnum.South:
+                zDelta = -forward;
+            break;
+                case DirectionEnum.West:
+                xDelta = -forward;
+            break;
+        }
+        transform.position += new Vector3(xDelta, 0, zDelta);
+		lastMovementTime = Time.time;
 	}
 }
