@@ -9,6 +9,8 @@ ModelImporter:
     400002: //RootNode
     2100000: None
     2100002: Material
+    2100004: Wall
+    2100006: Door
     2300000: default
     3300000: default
     4300000: default
@@ -51,7 +53,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

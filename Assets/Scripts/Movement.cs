@@ -5,6 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour {
 
     Direction direction;
+    Map map = new Map();
 
     void Start() {
         direction = GetComponent<Direction>();
@@ -45,7 +46,12 @@ public class Movement : MonoBehaviour {
                 xDelta = -forward;
             break;
         }
-        transform.position += new Vector3(xDelta, 0, zDelta);
-		lastMovementTime = Time.time;
+        Vector3 newPosition = transform.position + new Vector3(xDelta, 0, zDelta);
+        if (newPosition.z  > 0 && newPosition.x > 0 && newPosition.z < 31 && newPosition.x < 31) {
+            if (map.MovementMap[(int)newPosition.z, (int)newPosition.x]) {
+                transform.position = newPosition;
+		        lastMovementTime = Time.time;
+            }
+        }
 	}
 }
