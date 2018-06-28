@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
-    Direction direction;
+    public Direction direction;
     Map map = new Map();
 
-    void Start() {
-        direction = GetComponent<Direction>();
+    void Start()
+    {
+        if (direction == null) {
+            direction = GetComponent<Direction>();
+        }
     }
     void FixedUpdate()
     {
